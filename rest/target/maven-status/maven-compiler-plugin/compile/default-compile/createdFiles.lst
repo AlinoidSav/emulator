@@ -1,0 +1,3 @@
+org\example\rest\Model\User.class
+org\example\rest\service\UserController.class
+org\example\rest\RestApplication.class
