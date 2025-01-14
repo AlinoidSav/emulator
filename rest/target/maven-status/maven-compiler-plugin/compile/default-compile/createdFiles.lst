@@ -1,3 +1,4 @@
+org\example\rest\service\DatabaseConnector.class
 org\example\rest\service\ErrorHandlingControllerAdvice.class
 org\example\rest\Model\User.class
 org\example\rest\service\UserController.class

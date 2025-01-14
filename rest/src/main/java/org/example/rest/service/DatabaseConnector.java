@@ -22,15 +22,18 @@ public class DatabaseConnector {
             con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             stat = con.createStatement();
             rs = stat.executeQuery(sql);
-
+            if (rs.next()) {
                 return new ResponseEntity<>(new User(
                         rs.getString("login"),
                         rs.getString("password"),
                         rs.getString("email"),
                         rs.getString("date")), HttpStatus.OK);
-        } catch (Exception e) {
+            } else {
+                return new ResponseEntity<>("No users with this login", HttpStatus.NOT_FOUND);
+            }
+        } catch (SQLException e) {
 //            throw new RuntimeException(e);
-            return new ResponseEntity<>("No users with this login", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("SQL Exeption", HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
             if (rs != null) {
                 rs.close();
