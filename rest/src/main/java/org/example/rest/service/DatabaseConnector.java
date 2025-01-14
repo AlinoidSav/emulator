@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import java.sql.*;
 
 public class DatabaseConnector {
-    public static final String DB_URL = "jdbc:postgresql://192.168.0.6:5432/db";
+    public static final String DB_URL = "jdbc:postgresql://host.docker.internal:5432/postgres";
     public static final String USERNAME = "postgres";
-    public static final String PASSWORD = "postgrespassword";
+    public static final String PASSWORD = "1qaz@WSX";
 
     public ResponseEntity<?> findUserByLogin(String login) throws SQLException {
         Connection con = null;
