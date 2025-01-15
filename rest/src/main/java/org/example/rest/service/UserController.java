@@ -22,12 +22,17 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public ResponseEntity<?> findUser(@RequestParam(name = "login") String login) throws InterruptedException, SQLException {
+    public ResponseEntity<?> findUser(@RequestParam(name = "login") String login) throws InterruptedException {
         Thread.sleep(rand.nextLong(1000, 2000));
-        return databaseConnector.findUserByLogin(login);
+        try {
+            return new ResponseEntity<>(databaseConnector.findUserByLogin(login), HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
+//TODO
     @PostMapping("/2")
     public ResponseEntity<?> postUser(@RequestBody User user) throws InterruptedException {
         Thread.sleep(rand.nextLong(1000, 2000));

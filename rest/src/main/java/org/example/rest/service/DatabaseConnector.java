@@ -14,7 +14,7 @@ public class DatabaseConnector {
     public static final String USERNAME = "postgres";
     public static final String PASSWORD = "postgrespassword";
 
-    public ResponseEntity<?> findUserByLogin(String login) throws SQLException {
+    public User findUserByLogin(String login) throws SQLException {
         Connection con = null;
         Statement stat = null;
         ResultSet rs = null;
@@ -25,18 +25,14 @@ public class DatabaseConnector {
             con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             stat = con.createStatement();
             rs = stat.executeQuery(sql);
-            if (rs.next()) {
-                return new ResponseEntity<>(new User(
+            rs.next();
+                return new User(
                         rs.getString("login"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getString("date")), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("No users with this login", HttpStatus.NOT_FOUND);
-            }
-        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-            return new ResponseEntity<>("SQL Exeption", HttpStatus.INTERNAL_SERVER_ERROR);
+                        rs.getString("date"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if (rs != null) {
                 rs.close();
@@ -48,7 +44,6 @@ public class DatabaseConnector {
                 con.close();
             }
         }
-//        return null;
     }
 
     public ResponseEntity<?> insertUser(User user){
