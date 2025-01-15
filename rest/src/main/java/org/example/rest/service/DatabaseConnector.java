@@ -26,7 +26,7 @@ public class DatabaseConnector {
             stat = con.createStatement();
             rs = stat.executeQuery(sql);
             rs.next();
-                return new User(
+            return new User(
                         rs.getString("login"),
                         rs.getString("password"),
                         rs.getString("email"),
@@ -46,7 +46,7 @@ public class DatabaseConnector {
         }
     }
 
-    public ResponseEntity<?> insertUser(User user){
+    public int insertUser(User user){
         String sql = "INSERT INTO users(login, password) VALUES (?, ?);\n" +
                 "INSERT INTO emails(login, email) VALUES (?, ?)";
         try (Connection con = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -54,9 +54,9 @@ public class DatabaseConnector {
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getLogin());
             ps.setString(4, user.getEmail());
-            return new ResponseEntity<>(ps.executeUpdate(), HttpStatus.CREATED);
-        } catch (SQLException e) {
-            return new ResponseEntity<>("User with such data already exists", HttpStatus.CONFLICT);
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
