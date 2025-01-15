@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk maven git
 WORKDIR /app
 RUN git clone https://github.com/AlinoidSav/emulator /app
 WORKDIR /app/rest
-RUN mvn clean package
+RUN mvn clean package install
 WORKDIR /app/rest/target
 COPY *.jar /app
 WORKDIR /app

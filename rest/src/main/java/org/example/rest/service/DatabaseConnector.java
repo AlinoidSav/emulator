@@ -3,9 +3,12 @@ package org.example.rest.service;
 import org.example.rest.Model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.sql.*;
 
+@Component
 public class DatabaseConnector {
     public static final String DB_URL = "jdbc:postgresql://192.168.0.6:5432/db";
     public static final String USERNAME = "postgres";
